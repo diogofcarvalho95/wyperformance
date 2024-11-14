@@ -3,9 +3,7 @@ wyperformance
 
 Tema desenvolvido para o desafio de WordPress.
 
-Live demo: https://wyperformance.onpressidium.com/<br/><br/><br/>
-BO: https://wyperformance.onpressidium.com/wp-admin
-<br/>user: wyperformance pw: Wyperformance1234!
+Live demo: https://wyperformance.onpressidium.com/<br/><br/>
 
 
 ### Installation
