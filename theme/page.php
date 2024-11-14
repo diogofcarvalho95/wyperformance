@@ -1,8 +1,8 @@
 <?php
 /**
- * The template for displaying archive pages
+ * Template Name: Blog Page
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * The template for displaying all posts on a specific page.
  *
  * @package wyperformance
  */
