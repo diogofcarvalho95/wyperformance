@@ -14,7 +14,7 @@ get_header();
 
 		<main id="main">
 
-			<section id="hero" class="relative min-h-[80vh] flex items-center justify-center">
+			<section id="hero" class="relative min-h-[60vh] md:min-h-[80vh] flex items-center justify-center">
 
 				<div class="relative isolate px-6 pt-14 lg:px-8">
 					<div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
