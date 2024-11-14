@@ -7,35 +7,12 @@
  * @package wyperformance
  */
 
+
 if ( ! defined( 'WYPERFORMANCE_VERSION' ) ) {
-	/*
-	 * Set the theme’s version number.
-	 *
-	 * This is used primarily for cache busting. If you use `npm run bundle`
-	 * to create your production build, the value below will be replaced in the
-	 * generated zip file with a timestamp, converted to base 36.
-	 */
 	define( 'WYPERFORMANCE_VERSION', '0.1.0' );
 }
 
 if ( ! defined( 'WYPERFORMANCE_TYPOGRAPHY_CLASSES' ) ) {
-	/*
-	 * Set Tailwind Typography classes for the front end, block editor and
-	 * classic editor using the constant below.
-	 *
-	 * For the front end, these classes are added by the `wyperformance_content_class`
-	 * function. You will see that function used everywhere an `entry-content`
-	 * or `page-content` class has been added to a wrapper element.
-	 *
-	 * For the block editor, these classes are converted to a JavaScript array
-	 * and then used by the `./javascript/block-editor.js` file, which adds
-	 * them to the appropriate elements in the block editor (and adds them
-	 * again when they’re removed.)
-	 *
-	 * For the classic editor (and anything using TinyMCE, like Advanced Custom
-	 * Fields), these classes are added to TinyMCE’s body class when it
-	 * initializes.
-	 */
 	define(
 		'WYPERFORMANCE_TYPOGRAPHY_CLASSES',
 		'prose prose-neutral max-w-none prose-a:text-primary'
@@ -51,24 +28,6 @@ if ( ! function_exists( 'wyperformance_setup' ) ) :
 	 * as indicating support for post thumbnails.
 	 */
 	function wyperformance_setup() {
-		/*
-		 * Make theme available for translation.
-		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on wyperformance, use a find and replace
-		 * to change 'wyperformance' to the name of your theme in all the template files.
-		 */
-		load_theme_textdomain( 'wyperformance', get_template_directory() . '/languages' );
-
-		// Add default posts and comments RSS feed links to head.
-		add_theme_support( 'automatic-feed-links' );
-
-		/*
-		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
-		 */
-		add_theme_support( 'title-tag' );
 
 		/*
 		 * Enable support for Post Thumbnails on posts and pages.
@@ -85,30 +44,7 @@ if ( ! function_exists( 'wyperformance_setup' ) ) :
 			)
 		);
 
-		/*
-		 * Switch default core markup for search form, comment form, and comments
-		 * to output valid HTML5.
-		 */
-		add_theme_support(
-			'html5',
-			array(
-				'search-form',
-				'comment-form',
-				'comment-list',
-				'gallery',
-				'caption',
-				'style',
-				'script',
-			)
-		);
-
-		// Add theme support for selective refresh for widgets.
-		add_theme_support( 'customize-selective-refresh-widgets' );
-
-		// Add support for editor styles.
 		add_theme_support( 'editor-styles' );
-
-		// Enqueue editor styles.
 		add_editor_style( 'style-editor.css' );
 		add_editor_style( 'style-editor-extra.css' );
 
@@ -121,25 +57,6 @@ if ( ! function_exists( 'wyperformance_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'wyperformance_setup' );
 
-/**
- * Register widget area.
- *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
- */
-function wyperformance_widgets_init() {
-	register_sidebar(
-		array(
-			'name'          => __( 'Footer', 'wyperformance' ),
-			'id'            => 'sidebar-1',
-			'description'   => __( 'Add widgets here to appear in your footer.', 'wyperformance' ),
-			'before_widget' => '<section id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title">',
-			'after_title'   => '</h2>',
-		)
-	);
-}
-add_action( 'widgets_init', 'wyperformance_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
@@ -147,10 +64,6 @@ add_action( 'widgets_init', 'wyperformance_widgets_init' );
 function wyperformance_scripts() {
 	wp_enqueue_style( 'wyperformance-style', get_stylesheet_uri(), array(), WYPERFORMANCE_VERSION );
 	wp_enqueue_script( 'wyperformance-script', get_template_directory_uri() . '/js/script.min.js', array(), WYPERFORMANCE_VERSION, true );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
 }
 add_action( 'wp_enqueue_scripts', 'wyperformance_scripts' );
 
@@ -174,24 +87,38 @@ function wyperformance_enqueue_block_editor_script() {
 }
 add_action( 'enqueue_block_assets', 'wyperformance_enqueue_block_editor_script' );
 
+
 /**
- * Add the Tailwind Typography classes to TinyMCE.
- *
- * @param array $settings TinyMCE settings.
- * @return array
+ * Register ACF Blocks
  */
-function wyperformance_tinymce_add_class( $settings ) {
-	$settings['body_class'] = WYPERFORMANCE_TYPOGRAPHY_CLASSES;
-	return $settings;
+function my_acf_blocks_init() {
+    if (function_exists('acf_register_block_type')) {
+        // Regista o bloco de galeria slider
+        acf_register_block_type(array(
+            'name'              => 'slider-gallery',
+            'title'             => __('Slider Gallery'),
+            'description'       => __('Um bloco com uma galeria de imagens em slider'),
+            'render_template'   => 'template-parts/blocks/slider-gallery.php',
+            'category'          => 'formatting',
+            'icon'              => 'images-alt2',
+            'keywords'          => array('slider', 'gallery', 'imagem'),
+            'enqueue_assets'    => function() {
+                wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css');
+                wp_enqueue_script('swiper-js', 'https://unpkg.com/swiper/swiper-bundle.min.js', array(), null, true);
+                wp_enqueue_script('slider-gallery-js', get_template_directory_uri() . '/js/slider-gallery.js', array('swiper-js'), null, true);
+            },
+        ));
+
+		// Regista o bloco de listagem de artigos
+        acf_register_block_type(array(
+            'name'              => 'article-list',
+            'title'             => __('Lista de Artigos'),
+            'description'       => __('Um bloco que exibe uma lista de artigos'),
+            'render_template'   => 'template-parts/blocks/article-list.php',
+            'category'          => 'formatting',
+            'icon'              => 'list-view',
+            'keywords'          => array('artigos', 'posts', 'lista'),
+        ));
+    }
 }
-add_filter( 'tiny_mce_before_init', 'wyperformance_tinymce_add_class' );
-
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
-
-/**
- * Functions which enhance the theme by hooking into WordPress.
- */
-require get_template_directory() . '/inc/template-functions.php';
+add_action('acf/init', 'my_acf_blocks_init');
