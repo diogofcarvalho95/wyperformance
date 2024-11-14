@@ -46,7 +46,7 @@
 					array(
 						'theme_location' => 'menu-1',
 						'menu_id'        => 'primary-menu',
-						'items_wrap'     => '<ul id="%1$s" class="%2$s" aria-label="submenu">%3$s</ul>',
+						'items_wrap'     => '<ul id="%1$s" class="%2$s hidden md:flex items-center space-x-6" aria-label="submenu">%3$s</ul>',
 					)
 				);
 				?>
