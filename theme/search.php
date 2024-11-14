@@ -8,11 +8,18 @@
  */
 
 get_header();
+$search_type = isset($_GET['type']) ? sanitize_text_field($_GET['type']) : 'all';
 ?>
 
 	<section id="primary" class="py-16">
 		<main id="main">
-			<?php echo get_template_part('template-parts/posts');?>
+			<?php 
+			if ($search_type === 'evento') : 
+				echo get_template_part('template-parts/eventos');
+			else:
+				echo get_template_part('template-parts/posts');
+			endif;
+			?>
 		</main>
 	</section>
 

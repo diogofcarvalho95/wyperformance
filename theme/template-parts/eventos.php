@@ -16,7 +16,8 @@
             <p class="lead">Sugerimos-te atividades dentro e fora de portas.</p>
         </div>
         <div>
-            <form method="get" action="<?php echo home_url( '/' ); ?>">
+            <form role="search" method="get" action="<?php echo home_url( '/' ); ?>">
+                <input type="hidden" name="type" value="evento">
                 <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
                     <input type="text" name="s" value="<?php echo get_search_query(); ?>" placeholder="Procurar eventos..." class="w-full p-2 border-none focus:outline-none text-gray-800">
                     <button type="submit" class="p-2 bg-[#f6b933] text-white hover:bg-[#54c4f4] transition duration-300">
